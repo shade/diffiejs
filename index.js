@@ -10,6 +10,8 @@
 *
 */
 
+
+
 function Diffie(options){
   if(options.common){
     options.common.base = options.common.base || this.genBase();
