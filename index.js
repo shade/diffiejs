@@ -10,26 +10,64 @@
 *
 */
 
+//Store the private variables somewhere
+var _private = {};
+
+//Does this browser have crypto enabled?
+_private.crypto = window.crypto && window.crypto.getRandomValues;
+
+/*
+* rng - the random number generator used by this program, non-editable
+*   @param nums {Number} - number of 32 bit random number
+*   @return {Array} - an array of random 32 bit numbers
+*/
+_private.rng = function(nums){
+  var arr;
+  if(_private.crypto){
+    arr = new Uint32Array(nums);
+    window.crypto.getRandomValues(nums);
+  }else{
+    arr = [];
+    while(nums--){
+      //Push a random 32 bit number into it
+      arr.push(~~(Math.random() * Math.pow(2,32)));
+    }
+  }
+  return arr;
+}
+
 
 
 function Diffie(options){
-  if(options.common){
-    options.common.base = options.common.base || this.genBase();
-    options.common.modulus = options.common.modulus || this.genModulus();
-  }else{
-    options.common = {
-      base:
-      modulus:
+  options.key = options.key || this.genSecret();
+
+  //We can only generate if there's a common base and modulus already defined
+  if(this.common){
+    this.common = {
+      base: options.common.base,
+      modulus: options.common.modulus
     };
+    this.genShared();
   }
 
-
-  this.common = {
-    base: options.common.base,
-    modulus: options.common.modulus
-  };
-
-  options.key = options.key || this.genSecret();
-  this.genShared();
   return this;
+}
+
+
+Diffie.config = {
+  bits:{
+    modulus: 2048,
+    base: 224
+  }
+};
+
+
+
+
+/*
+* Diffie.genSecret - generates an appropriate sized secret key
+* @return {BI}
+*/
+Diffie.prototype.genSecret = function(){
+
 }
