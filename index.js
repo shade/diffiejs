@@ -19,20 +19,29 @@ _private.crypto = window.crypto && window.crypto.getRandomValues;
 /*
 * rng - the random number generator used by this program, non-editable
 *   @param nums {Number} - number of 32 bit random number
+*   @param base {Number} - if this is set, we'll return an array of base n strings
 *   @return {Array} - an array of random 32 bit numbers
 */
-_private.rng = function(nums){
-  var arr;
+_private.rng = function(nums,base){
+  var arr,i;
   if(_private.crypto){
     arr = new Uint32Array(nums);
     window.crypto.getRandomValues(nums);
   }else{
     arr = [];
-    while(nums--){
+    i = nums;
+    while(i--){
       //Push a random 32 bit number into it
       arr.push(~~(Math.random() * Math.pow(2,32)));
     }
   }
+
+  if(base){
+    while(nums--){
+      arr[nums] = arr[nums].toString(base);
+    }
+  }
+
   return arr;
 }
 
@@ -57,7 +66,8 @@ function Diffie(options){
 Diffie.config = {
   bits:{
     modulus: 2048,
-    base: 224
+    base: 224,
+    secret: 256
   }
 };
 
@@ -69,5 +79,10 @@ Diffie.config = {
 * @return {BI}
 */
 Diffie.prototype.genSecret = function(){
+  // Calculate how many 32 bit blocks we need
+  var blocks = Math.ceil(Diffie.config.bits.secret / 32);
+  // Join everything to make one huge number and make a big int of it
+  this.secret = new BI(blocks.join(''),16);
 
+  return this.secret;
 }
