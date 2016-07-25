@@ -38,7 +38,7 @@ So, here's where a bit of the math begins. You take your base, g, and raise it t
 ```
 
 You can now send this to your friend, over the unsecure channel as this is public knowledge as well. Your friend will send this to you as well.
-### Step 4: Recieving a public key, and generating the final secure key.
+#### Step 4: Recieving a public key, and generating the final secure key.
 So, let's suppose your friend sent you their public key call it P. Now you do a modular exponentation, only this time using P as your base instead of g. This new number is your secret key. Your friend will have the exact same key This can be written in JS math as:
 
 ```javascript
@@ -52,6 +52,10 @@ So, let's suppose your friend sent you their public key call it P. Now you do a 
   // ^this is true!!
 ```
 
+The diffiejs library was onestep ahead of you and already computed it, when you did the .update() in Step 3. To access it, just check out the key attribute
+```javascript
+var secretKey = diffie.key //This will give you your secret shared key 
+```
 
 
 For more details check out the Wikipedia article on it: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
