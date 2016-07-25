@@ -79,8 +79,11 @@ Diffie.config = {
 * @return {BI}
 */
 Diffie.prototype.genSecret = function(){
+  var blocks,blockArr;
   // Calculate how many 32 bit blocks we need
-  var blocks = Math.ceil(Diffie.config.bits.secret / 32);
+  blocks = Math.ceil(Diffie.config.bits.secret / 32);
+  // Generate the numbers
+  blockArr = _private.rng(blocks,16)
   // Join everything to make one huge number and make a big int of it
   this.secret = new BI(blocks.join(''),16);
 
