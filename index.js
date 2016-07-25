@@ -102,3 +102,10 @@ Diffie.prototype.setCommon = function(base, modulus){
 
   this.genShared();
 }
+
+/*
+* Diffie.genShared - generates and returns the shared key
+*/
+Diffie.prototype.genShared = function(){
+
+}
