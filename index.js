@@ -89,3 +89,16 @@ Diffie.prototype.genSecret = function(){
 
   return this.secret;
 }
+
+
+/*
+* Diffie.setCommon - sets the common base and modulus and creates the shared key
+* @param base {BI}
+* @param modulus {BI}
+*/
+Diffie.prototype.setCommon = function(base, modulus){
+  Diffie.config.bits.modulus = modulus;
+  Diffie.config.bits.base = base;
+
+  this.genShared();
+}
