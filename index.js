@@ -112,6 +112,17 @@ Diffie.prototype.setCommon = function(base, modulus){
 Diffie.prototype.genShared = function(){
   var shared;
   
-  shared = this.common.base.powmod(this.secret, this.common.modulus);
+  shared = this.shared = this.common.base.powmod(this.secret, this.common.modulus);
   return shared;
+}
+
+
+/*
+* Diffie.updateShared - updates the diffie hellman
+*   @return {BI} - this is actually the secret key
+*/
+Diffie.prototype.updateShared = function(sharedKey){
+  var secret;
+  secret = sharedKey.powmod(this.secret,this.common.modulus);
+  return secret;
 }
