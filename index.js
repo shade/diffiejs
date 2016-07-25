@@ -52,9 +52,11 @@ function Diffie(options){
 
   //We can only generate if there's a common base and modulus already defined
   if(this.common){
+    var _base = options.common.base;
+    var _modulus = options.common.modulus;
     this.common = {
-      base: options.common.base,
-      modulus: options.common.modulus
+      base: (_base instanceof BI? _base : new BI(base)),
+      modulus: (_modulus instanceof BI? _modulus : new BI(modulus))
     };
     this.genShared();
   }
@@ -88,4 +90,39 @@ Diffie.prototype.genSecret = function(){
   this.secret = new BI(blocks.join(''),16);
 
   return this.secret;
+}
+
+
+/*
+* Diffie.setCommon - sets the common base and modulus and creates the shared key
+* @param base {BI}
+* @param modulus {BI}
+*/
+Diffie.prototype.setCommon = function(base, modulus){
+  Diffie.config.bits.modulus = modulus;
+  Diffie.config.bits.base = base;
+
+  this.genShared();
+}
+
+
+/*
+* Diffie.genShared - generates and returns the shared key
+*/
+Diffie.prototype.genShared = function(){
+  var shared;
+  
+  shared = this.shared = this.common.base.powmod(this.secret, this.common.modulus);
+  return shared;
+}
+
+
+/*
+* Diffie.updateShared - updates the diffie hellman
+*   @return {BI} - this is actually the secret key
+*/
+Diffie.prototype.updateShared = function(sharedKey){
+  var secret;
+  secret = sharedKey.powmod(this.secret,this.common.modulus);
+  return secret;
 }
