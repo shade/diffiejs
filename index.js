@@ -52,9 +52,11 @@ function Diffie(options){
 
   //We can only generate if there's a common base and modulus already defined
   if(this.common){
+    var _base = options.common.base;
+    var _modulus = options.common.modulus;
     this.common = {
-      base: options.common.base,
-      modulus: options.common.modulus
+      base: (_base instanceof BI? _base : new BI(base)),
+      modulus: (_modulus instanceof BI? _modulus : new BI(modulus))
     };
     this.genShared();
   }
@@ -103,9 +105,13 @@ Diffie.prototype.setCommon = function(base, modulus){
   this.genShared();
 }
 
+
 /*
 * Diffie.genShared - generates and returns the shared key
 */
 Diffie.prototype.genShared = function(){
-
+  var shared;
+  
+  shared = this.common.base.powmod(this.secret, this.common.modulus);
+  return shared;
 }
