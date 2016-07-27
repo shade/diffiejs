@@ -1,17 +1,24 @@
 
 function addPoints(P,Q){
-	var xP = P[0];
-	var yP = P[1];
+	var lam, xR, yR, xP, yP, xQ, yQ;
 
-	var xQ = Q[0];
-	var yQ = Q[1];
+	xP = P[0];
+	yP = P[1];
 
-	var lam,xR,yR;
+	xQ = Q[0];
+	yQ = Q[1];
 
-	lam = (yQ - yP) / (xQ - xP);
-	
-	xR = Math.pow(lam, 2) - xQ - xP;	
-	yR = (lam * (xP - xR)) - yP;
+	// The normal, non BI version of the following
+	// lam = (yQ - yP) / (xQ - xP);
+	lam = yQ.sub(yP).divide(xQ.sub(xP));
+
+	// The normal, non BI version of the following
+	// xR = Math.pow(lam, 2) - xQ - xP;
+	xR = lam.pow(s).sub(xQ).sub(xP);
+
+	// The normal, non BI version of the following
+	// yR = (lam * (xP - xR)) - yP;
+	yR = lam.times(xP.sub(xR)).sub(yP);
 
 	return [xR,yR];
 }
