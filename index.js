@@ -32,7 +32,7 @@ _private.rng = function(nums,base){
     i = nums;
     while(i--){
       //Push a random 32 bit number into it
-      arr.push(~~(Math.random() * Math.pow(2,32)));
+      arr.push(~~(Math.random() * Math.pow(2,32)) >>> 0);
     }
   }
 

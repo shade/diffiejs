@@ -56,8 +56,11 @@ The diffiejs library was onestep ahead of you and already computed it, when you 
 ```javascript
 var secretKey = diffie.key //This will give you your secret shared key 
 ```
-
-
 For more details check out the Wikipedia article on it: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
+
+
+## Elliptic Curve Diffie-Hellman
+
+Although the previous, vanilla, version of Diffie Hellman
 
 ##How to use diffie.js
