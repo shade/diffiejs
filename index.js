@@ -48,15 +48,15 @@ _private.rng = function(nums,base){
 
 
 function Diffie(options){
-  options.key = options.key || this.genSecret();
+  this.key = options.key || this.genSecret();
 
   //We can only generate if there's a common base and modulus already defined
   if(this.common){
     var _base = options.common.base;
     var _modulus = options.common.modulus;
     this.common = {
-      base: (_base instanceof BI? _base : new BI(base)),
-      modulus: (_modulus instanceof BI? _modulus : new BI(modulus))
+      base: (_base instanceof BI? _base : new BI(_base)),
+      modulus: (_modulus instanceof BI? _modulus : new BI(_modulus))
     };
     this.genShared();
   }
